@@ -9,6 +9,13 @@
             "name": "Myprogram",
             "request": "launch",
             "mainClass": "clases.Myprogram",
+            "projectName": "Taller1_CodingStandards_8d2279c8"
+        },
+        {
+            "type": "java",
+            "name": "Myprogram",
+            "request": "launch",
+            "mainClass": "clases.Myprogram",
             "projectName": "Taller1_CodingStandards_4d6dba9d"
         },
         {

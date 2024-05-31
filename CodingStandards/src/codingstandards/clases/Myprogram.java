@@ -79,6 +79,16 @@ class SumTheTotal {
 
         totalC = totalC - (totalC * discount);
 
+        if (totalC > 50) {
+            discount = 10;
+            totalC = totalC - discount;
+        } else if (totalC > 100) {
+            discount = 25;
+            totalC = totalC - discount;
+        }
+        
+        
+
         return totalC;
     }
 }
@@ -89,56 +99,56 @@ public class Myprogram {
         Order order = new Order();
         SumTheTotal calculator = new SumTheTotal();
 
-        Scanner scanner = new Scanner(System.in);
-        
-        while (true) {
-            menu.show();
-
-            System.out.print("Enter meal name to order or 'done' to finish: ");
-            String var45 = scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                menu.show();
+                
+                System.out.print("Enter meal name to order or 'done' to finish: ");
+                String var45 = scanner.nextLine();
+                
+                if (var45.equals("done")) break;
+                
+                if (!menu.aval(var45)) {
+                    System.out.println("meal not available. Please re-select.");
+                    continue;
+                }
+                
+                System.out.print("Enter quantity for " + var45 + ": ");
+                int quantity = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                
+                if (quantity <= 0 || quantity >100) {
+                    System.out.println("Invalid quantity. Please re-enter.");
+                    continue;
+                }
+                
+                order.add(var45, quantity);
+            }
             
-            if (var45.equals("done")) break;
-
-            if (!menu.aval(var45)) {
-                System.out.println("meal not available. Please re-select.");
-                continue;
+            double totalC = calculator.calc(order,menu);
+            int var2 = order.getvar2();
+            
+            if (var2 > 100) {
+                System.out.println("Order quantity exceeds maximum limit. Please re-enter.");
+                return;
             }
-
-            System.out.print("Enter quantity for " + var45 + ": ");
-            int quantity = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            if (quantity <= 0) {
-                System.out.println("Invalid quantity. Please re-enter.");
-                continue;
+            
+            System.out.println("Your Ord:");
+            for (Map.Entry<String, Integer> item : order.getvar45s().entrySet()) {
+                System.out.println(item.getKey() + ": " + item.getValue());
             }
-
-            order.add(var45, quantity);
+            
+            System.out.println("Total Cost: $" + totalC);
+            System.out.print("Confirm order (yes/no): ");
+            String confirm = scanner.nextLine();
+            
+            if (!confirm.equals("yes") && !confirm.equals("YES")) {
+                System.out.println("Order canceled.");
+                System.out.println(-1);
+                return;
+            }
+            
+            System.out.println("Order confirmed. Total cost is: $" + totalC);
         }
-
-        double totalC = calculator.calc(order,menu);
-        int var2 = order.getvar2();
-
-        if (var2 > 100) {
-            System.out.println("Order quantity exceeds maximum limit. Please re-enter.");
-            return;
-        }
-
-        System.out.println("Your Ord:");
-        for (Map.Entry<String, Integer> item : order.getvar45s().entrySet()) {
-            System.out.println(item.getKey() + ": " + item.getValue());
-        }
-
-        System.out.println("Total Cost: $" + totalC);
-        System.out.print("Confirm order (yes/no): ");
-        String confirm = scanner.nextLine();
-
-        if (!confirm.equals("yes") && !confirm.equals("YES")) {
-            System.out.println("Order canceled.");
-            System.out.println(-1);
-            return;
-        }
-
-        System.out.println("Order confirmed. Total cost is: $" + totalC);
     }
 }
